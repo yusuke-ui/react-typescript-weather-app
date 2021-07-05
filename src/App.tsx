@@ -42,7 +42,7 @@ function App() {
     <div className="wrapper">
       <div className="container">
         <Title />
-          <Form getWeather={getWeather} setCity={setCity} />
+          <Form getWeather={getWeather} setCity={setCity} city={city}/>
           <Results results={results} />
       </div>
     </div>

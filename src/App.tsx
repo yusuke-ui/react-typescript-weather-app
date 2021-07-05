@@ -49,6 +49,7 @@ function App() {
         <Title />
           <Form getWeather={getWeather} setCity={setCity} city={city}/>
           <Results results={results} />
+            {loading && <Loading />}
       </div>
     </div>
   );

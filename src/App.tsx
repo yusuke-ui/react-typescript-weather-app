@@ -1,6 +1,7 @@
 import Form from "./components/Form";
 import Title from "./components/Title";
 import Results from "./components/Results";
+import Loading from "./components/Loading";
 import React, { useState } from 'react';
 import './App.css';
 import axios from "axios";
@@ -14,6 +15,7 @@ type ResultsStateType = {
 }
 
 function App() {
+  const [loading, setLoading] = useState<boolean>(false);
   const [city, setCity] = useState<string>("");
   const [results, setResults] = useState<ResultsStateType>({
     country: "",
@@ -22,18 +24,21 @@ function App() {
     conditionText: "",
     icon: ""
   });
-  const getWeather = (e) => {
+  const getWeather = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.get(`https://api.weatherapi.com/v1/current.json?key=8373ce37cc3a4b3c99870819213006&q=${city}&aqi=no`)
-      .then(res => {
+    setLoading(true);
+    fetch(`https://api.weatherapi.com/v1/current.json?key=8373ce37cc3a4b3c99870819213006&q=${city}&aqi=no`)
+      .then(res => res.json())
+      .then(data => {
         setResults({
-          country: res.data.location.country,
-          cityName: res.data.location.name,
-          temperate: res.data.current.temp_c,
-          conditionText: res.data.current.condition.text,
-          icon: res.data.current.condition.icon
+          country: data.location.country,
+          cityName: data.location.name,
+          temperate: data.current.temp_c,
+          conditionText: data.current.condition.text,
+          icon: data.current.condition.icon
         })
         setCity("");
+        setLoading(false);
       })
       .catch(err => alert("エラーが発生しました。ページをリロードして、もう一度トライしてください。"))
   }

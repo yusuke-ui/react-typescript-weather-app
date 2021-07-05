@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import Form from "./components/Form";
 import Title from "./components/Title";
 import Results from "./components/Results";
 import Loading from "./components/Loading";
-import React, { useState } from 'react';
 import './App.css';
 import axios from "axios";
 
@@ -49,7 +49,7 @@ function App() {
         <Title />
           <Form getWeather={getWeather} setCity={setCity} city={city}/>
           <Results results={results} />
-            {loading && <Loading />}
+            {loading ? <Loading /> : <Results results={results} />}
       </div>
     </div>
   );
